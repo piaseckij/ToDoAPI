@@ -24,7 +24,8 @@ namespace ToDoAPI.Services
                 .FirstOrDefault(t => t.Id == id);
 
             var taskDto=_mapper.Map<TaskDto>(task);
-                //ToDo throw new exception
+                
+            //ToDo throw new exception
             //if (task is null)
 
             return taskDto;
