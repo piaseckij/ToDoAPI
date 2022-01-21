@@ -2,6 +2,7 @@
 using System.Linq;
 using AutoMapper;
 using ToDoAPI.Entites;
+using ToDoAPI.Exceptions;
 using ToDoAPI.Models;
 
 namespace ToDoAPI.Services
@@ -32,9 +33,10 @@ namespace ToDoAPI.Services
                 .FirstOrDefault(t => t.Id == id);
 
             var taskDto=_mapper.Map<TaskDto>(task);
-                
-            //ToDo throw new exception
-            //if (task is null)
+
+            if (task is null)
+                throw new NotFoundException("Task not found");
+            
 
             return taskDto;
         }
