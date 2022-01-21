@@ -41,5 +41,16 @@ namespace ToDoAPI.Services
             return tasksDto;
         }
 
+        public int CreateTask(CreateTaskDto dto)
+        {
+            var task = _mapper.Map<Task>(dto);
+
+            _context.Add(task);
+            _context.SaveChanges();
+
+            return task.Id;
+
+        }
+
     }
 }

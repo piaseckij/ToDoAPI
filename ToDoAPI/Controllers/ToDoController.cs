@@ -11,7 +11,8 @@ using Task = System.Threading.Tasks.Task;
 namespace ToDoAPI.Controllers
 {
     [Route("api/ToDo")]
-    public class ToDoController :ControllerBase
+    [ApiController]
+    public class ToDoController : ControllerBase
     {
         private readonly TasksService _tasksService;
 
@@ -21,7 +22,7 @@ namespace ToDoAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TaskDto>> Get([FromRoute]int id)
+        public ActionResult<IEnumerable<TaskDto>> Get([FromRoute] int id)
         {
             var tasks = _tasksService.GetAll();
 
@@ -29,11 +30,19 @@ namespace ToDoAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TaskDto> GetById([FromRoute]int id)
+        public ActionResult<TaskDto> GetById([FromRoute] int id)
         {
             var task = _tasksService.GetById(id);
 
             return Ok(task);
         }
-    }
+
+        [HttpPost]
+        public ActionResult Post([FromBody] CreateTaskDto dto)
+        {
+            int id=_tasksService.CreateTask(dto);
+
+            return Created($"api/ToDo/{id}",null);
+        }
+}
 }

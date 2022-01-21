@@ -13,6 +13,7 @@ namespace ToDoAPI
         public ToDoMappingProfile()
         {
             CreateMap<Task, TaskDto>();
+            CreateMap<CreateTaskDto, Task>();
 
         }
     }
