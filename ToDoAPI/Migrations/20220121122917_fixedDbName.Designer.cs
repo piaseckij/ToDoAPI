@@ -8,7 +8,7 @@ using ToDoAPI.Entites;
 
 namespace ToDoAPI.Migrations
 {
-    [DbContext(typeof(ToDoContext))]
+    [DbContext(typeof(ToDoDbContext))]
     [Migration("20220121122917_fixedDbName")]
     partial class fixedDbName
     {

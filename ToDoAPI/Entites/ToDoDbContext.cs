@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ToDoAPI.Entites
 {
-    public class ToDoContext:DbContext
+    public class ToDoDbContext:DbContext
     {
         private string _connectionstring =
             "Server=localhost;Database=ToDoDb;Trusted_Connection=True;";
