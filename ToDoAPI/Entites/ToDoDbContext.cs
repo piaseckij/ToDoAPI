@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace ToDoAPI.Entites
 {
-    public class TaskDbContext:DbContext
+    public class ToDoContext:DbContext
     {
         private string _connectionstring =
-            "Server=localhost;Database=TasksDb;Trusted_Connection=True;";
+            "Server=localhost;Database=ToDoDb;Trusted_Connection=True;";
 
         //public DbSet<User> Users { get; set; }
         public DbSet<Task> Tasks { get; set; }

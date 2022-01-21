@@ -2,7 +2,7 @@
 
 namespace ToDoAPI.Migrations
 {
-    public partial class Init : Migration
+    public partial class fixedDbName : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
