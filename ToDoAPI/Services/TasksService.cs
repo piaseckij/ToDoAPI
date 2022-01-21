@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Microsoft.AspNetCore.Components;
 using ToDoAPI.Entites;
-using ToDoAPI.Exceptions;
 using ToDoAPI.Models;
 
 namespace ToDoAPI.Services
@@ -20,7 +20,7 @@ namespace ToDoAPI.Services
         private readonly ToDoDbContext _context;
         private readonly IMapper _mapper;
 
-        public TasksService(ToDoDbContext context, IMapper mapper )
+        public TasksService(ToDoDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -28,22 +28,16 @@ namespace ToDoAPI.Services
 
         public TaskDto GetById(int id)
         {
-            var task = _context
-                .Tasks
-                .FirstOrDefault(t => t.Id == id);
+            var task = getTaskById(id);
 
-            var taskDto=_mapper.Map<TaskDto>(task);
-
-            if (task is null)
-                throw new NotFoundException("Task not found");
-            
+            var taskDto = _mapper.Map<TaskDto>(task);
 
             return taskDto;
         }
 
         public IEnumerable<TaskDto> GetAll()
         {
-            var tasks=_context
+            var tasks = _context
                 .Tasks
                 .ToList();
 
@@ -55,21 +49,28 @@ namespace ToDoAPI.Services
         {
             var task = _mapper.Map<Task>(dto);
 
-            _context.Add(task);
+            _context.Add((object) task);
             _context.SaveChanges();
 
             return task.Id;
-
         }
 
         public void Remove(int id)
         {
-            var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
+            var task = getTaskById(id);
 
             _context.Remove(task);
             _context.SaveChanges();
-
         }
 
+        private Task getTaskById(int id)
+        {
+            var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
+
+            if (task is null)
+                throw new NavigationException("Task not found");
+
+            return task;
+        }
     }
 }
