@@ -52,5 +52,14 @@ namespace ToDoAPI.Services
 
         }
 
+        public void Remove(int id)
+        {
+            var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
+
+            _context.Remove(task);
+            _context.SaveChanges();
+
+        }
+
     }
 }

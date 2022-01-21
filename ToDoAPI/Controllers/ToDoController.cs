@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using ToDoAPI.Entites;
 using ToDoAPI.Models;
 using ToDoAPI.Services;
-using Task = System.Threading.Tasks.Task;
 
 namespace ToDoAPI.Controllers
 {
@@ -40,9 +35,17 @@ namespace ToDoAPI.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] CreateTaskDto dto)
         {
-            int id=_tasksService.CreateTask(dto);
+            var id = _tasksService.CreateTask(dto);
 
-            return Created($"api/ToDo/{id}",null);
+            return Created($"api/ToDo/{id}", null);
         }
-}
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete([FromRoute] int id)
+        {
+            _tasksService.Remove(id);
+
+            return NoContent();
+        }
+    }
 }
