@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToDoAPI.Entites;
+using ToDoAPI.Middleware;
 using ToDoAPI.Services;
 
 namespace ToDoAPI
@@ -28,10 +29,11 @@ namespace ToDoAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<TasksService>();
             services.AddDbContext<ToDoDbContext>();
             services.AddScoped<ToDoSeeder>();
             services.AddAutoMapper(this.GetType().Assembly);
+            services.AddScoped<ITasksService,TasksService>();
+            services.AddScoped<ErrorHandlingMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +46,7 @@ namespace ToDoAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();

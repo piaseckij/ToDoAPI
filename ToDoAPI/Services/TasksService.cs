@@ -6,7 +6,15 @@ using ToDoAPI.Models;
 
 namespace ToDoAPI.Services
 {
-    public class TasksService
+    public interface ITasksService
+    {
+        TaskDto GetById(int id);
+        IEnumerable<TaskDto> GetAll();
+        int CreateTask(CreateTaskDto dto);
+        void Remove(int id);
+    }
+
+    public class TasksService : ITasksService
     {
         private readonly ToDoDbContext _context;
         private readonly IMapper _mapper;

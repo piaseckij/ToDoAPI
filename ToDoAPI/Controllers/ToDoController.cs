@@ -9,9 +9,9 @@ namespace ToDoAPI.Controllers
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private readonly TasksService _tasksService;
+        private readonly ITasksService _tasksService;
 
-        public ToDoController(TasksService tasksService)
+        public ToDoController(ITasksService tasksService)
         {
             _tasksService = tasksService;
         }
