@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Components;
 using ToDoAPI.Entites;
+using ToDoAPI.Exceptions;
 using ToDoAPI.Models;
 
 namespace ToDoAPI.Services
@@ -68,7 +69,7 @@ namespace ToDoAPI.Services
             var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
 
             if (task is null)
-                throw new NavigationException("Task not found");
+                throw new NotFoundException("Task not found");
 
             return task;
         }

@@ -10,8 +10,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using ToDoAPI.Entites;
 using ToDoAPI.Middleware;
+using ToDoAPI.Models;
+using ToDoAPI.Models.Validators;
 using ToDoAPI.Services;
 
 namespace ToDoAPI
@@ -28,11 +33,14 @@ namespace ToDoAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation();
             services.AddDbContext<ToDoDbContext>();
             services.AddScoped<ToDoSeeder>();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddScoped<ITasksService,TasksService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+            services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
             services.AddScoped<ErrorHandlingMiddleware>();
         }
 
