@@ -13,17 +13,25 @@ namespace ToDoAPI.Controllers
     [ApiController]
     public class AccountController:ControllerBase
     {
-        private readonly IAccountService _service;
+        private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService service)
+        public AccountController(IAccountService accountService)
         {
-            _service = service;
+            _accountService = accountService;
         }
         [HttpPost("register")]
         public ActionResult RegisterUser([FromBody] RegisterUserDto dto)
         {
-            _service.RegisterUser(dto);
+            _accountService.RegisterUser(dto);
             return Ok();
+
+        }
+
+        [HttpPost("login")]
+        public ActionResult Login([FromBody]LoginDto dto)
+        {
+            string token = _accountService.GenerateJwt(dto);
+            return Ok(token);
 
         }
     }
