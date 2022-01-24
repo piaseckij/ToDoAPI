@@ -16,12 +16,27 @@ namespace ToDoAPI
         public void Seed()
         {
             if (_context.Database.CanConnect())
+            {
+
+                if (!_context.Users.Any())
+                {
+                    var user = new User
+                    {
+                        Email = "test@test.com",
+                        HashPassword = "password1",
+                        Username = "test"
+                    };
+                    _context.Users.Add(user);
+                    _context.SaveChanges();
+                }
+
                 if (!_context.Tasks.Any())
                 {
                     var tasks = GetTasks();
                     _context.Tasks.AddRange(tasks);
                     _context.SaveChanges();
                 }
+            }
         }
 
         private IEnumerable<Task> GetTasks()
@@ -31,13 +46,15 @@ namespace ToDoAPI
                 new()
                 {
                     Name = "Finish this project",
-                    Description = "I should finally finish this API"
+                    Description = "I should finally finish this API",
+                    UserId = 1
                 },
 
                 new()
                 {
                     Name = "Meet friends",
-                    Description = "Meet Friends at 19:00"
+                    Description = "Meet Friends at 19:00",
+                    UserId=1
                 }
             };
 

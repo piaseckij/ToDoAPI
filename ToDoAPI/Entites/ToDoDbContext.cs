@@ -13,11 +13,22 @@ namespace ToDoAPI.Entites
         private string _connectionstring =
             "Server=localhost;Database=ToDoDb;Trusted_Connection=True;";
 
-        //public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Task> Tasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .Property(u => u.Email)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.HashPassword)
+                .IsRequired();
+            modelBuilder.Entity<User>()
+                .Property(u => u.Username)
+                .IsRequired();
+
             modelBuilder.Entity<Task>()
                 .Property(t => t.Name)
                 .IsRequired()
