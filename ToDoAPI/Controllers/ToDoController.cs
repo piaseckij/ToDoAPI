@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDoAPI.Models;
 using ToDoAPI.Services;
@@ -7,6 +8,7 @@ namespace ToDoAPI.Controllers
 {
     [Route("api/ToDo")]
     [ApiController]
+    [Authorize]
     public class ToDoController : ControllerBase
     {
         private readonly ITasksService _tasksService;

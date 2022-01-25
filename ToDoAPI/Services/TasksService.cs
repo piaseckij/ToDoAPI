@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Components;
@@ -18,13 +19,15 @@ namespace ToDoAPI.Services
 
     public class TasksService : ITasksService
     {
-        private readonly ToDoDbContext _context;
+        private readonly ToDoDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly IUserContextService _userContextService;
 
-        public TasksService(ToDoDbContext context, IMapper mapper)
+        public TasksService(ToDoDbContext dbContext, IMapper mapper, IUserContextService userContextService)
         {
-            _context = context;
+            _dbContext = dbContext;
             _mapper = mapper;
+            _userContextService = userContextService;
         }
 
         public TaskDto GetById(int id)
@@ -38,9 +41,11 @@ namespace ToDoAPI.Services
 
         public IEnumerable<TaskDto> GetAll()
         {
-            var tasks = _context
+            var tasks = _dbContext
                 .Tasks
                 .ToList();
+
+            Console.WriteLine(_userContextService.GetUserId);
 
             var tasksDto = _mapper.Map<List<TaskDto>>(tasks);
             return tasksDto;
@@ -50,8 +55,8 @@ namespace ToDoAPI.Services
         {
             var task = _mapper.Map<Task>(dto);
 
-            _context.Add((object) task);
-            _context.SaveChanges();
+            _dbContext.Add((object) task);
+            _dbContext.SaveChanges();
 
             return task.Id;
         }
@@ -60,13 +65,13 @@ namespace ToDoAPI.Services
         {
             var task = getTaskById(id);
 
-            _context.Remove(task);
-            _context.SaveChanges();
+            _dbContext.Remove(task);
+            _dbContext.SaveChanges();
         }
 
         private Task getTaskById(int id)
         {
-            var task = _context.Tasks.FirstOrDefault(t => t.Id == id);
+            var task = _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
 
             if (task is null)
                 throw new NotFoundException("Task not found");
