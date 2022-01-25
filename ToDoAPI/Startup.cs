@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ToDoAPI.Entites;
 using ToDoAPI.Middleware;
@@ -58,7 +59,6 @@ namespace ToDoAPI
             });
 
             services.AddControllers().AddFluentValidation();
-            services.AddDbContext<ToDoDbContext>();
             services.AddScoped<ToDoSeeder>();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddScoped<ITasksService,TasksService>();
@@ -69,6 +69,8 @@ namespace ToDoAPI
             services.AddScoped<IUserContextService, UserContextService>();
             services.AddHttpContextAccessor();
             services.AddSwaggerGen();
+
+            services.AddDbContext<ToDoDbContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("ToDoDbConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

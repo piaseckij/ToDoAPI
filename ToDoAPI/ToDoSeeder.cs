@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ToDoAPI.Entites;
 
 namespace ToDoAPI
@@ -17,6 +18,12 @@ namespace ToDoAPI
         {
             if (_context.Database.CanConnect())
             {
+                var pendingMigrations = _context.Database.GetPendingMigrations();
+
+                if (pendingMigrations != null && pendingMigrations.Any())
+                {
+                    _context.Database.Migrate();
+                }
 
                 if (!_context.Users.Any())
                 {

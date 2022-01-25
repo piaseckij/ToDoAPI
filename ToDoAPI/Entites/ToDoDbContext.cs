@@ -10,8 +10,10 @@ namespace ToDoAPI.Entites
 {
     public class ToDoDbContext:DbContext
     {
-        private string _connectionstring =
-            "Server=localhost;Database=ToDoDb;Trusted_Connection=True;";
+        public ToDoDbContext(DbContextOptions<ToDoDbContext> options):base(options)
+        {
+            
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Task> Tasks { get; set; }
@@ -41,9 +43,5 @@ namespace ToDoAPI.Entites
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connectionstring);
-        }
     }
 }
