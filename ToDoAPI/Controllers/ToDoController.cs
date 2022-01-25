@@ -26,13 +26,13 @@ namespace ToDoAPI.Controllers
             return Ok(tasks);
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<TaskDto> GetById([FromRoute] int id)
-        {
-            var task = _tasksService.GetById(id);
+        //[HttpGet("{id}")]
+        //public ActionResult<TaskDto> GetById([FromRoute] int id)
+        //{
+        //    var task = _tasksService.GetById(id);
 
-            return Ok(task);
-        }
+        //    return Ok(task);
+        //}
 
         [HttpPost]
         public ActionResult Post([FromBody] CreateTaskDto dto)
@@ -48,6 +48,15 @@ namespace ToDoAPI.Controllers
             _tasksService.Remove(id);
 
             return NoContent();
+        }
+
+        [HttpPut]
+        public ActionResult Edit([FromBody] TaskDto dto)
+        {
+            _tasksService.EditTask(dto);
+
+            return Ok();
+
         }
     }
 }

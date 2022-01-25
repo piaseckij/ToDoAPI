@@ -11,8 +11,10 @@ namespace ToDoAPI.Services
 {
     public interface ITasksService
     {
-        TaskDto GetById(int id);
+        //TaskDto GetById(int id);
         IEnumerable<TaskDto> GetAll();
+        void EditTask(TaskDto dto);
+
         int CreateTask(CreateTaskDto dto);
         void Remove(int id);
     }
@@ -30,13 +32,24 @@ namespace ToDoAPI.Services
             _userContextService = userContextService;
         }
 
-        public TaskDto GetById(int id)
+        //public TaskDto GetById(int id)
+        //{
+        //    var task = getTaskById(id);
+
+        //    var taskDto = _mapper.Map<TaskDto>(task);
+
+        //    return taskDto;
+        //}
+
+        public void EditTask(TaskDto dto)
         {
-            var task = getTaskById(id);
+            var task = getTaskById(dto.Id);
 
-            var taskDto = _mapper.Map<TaskDto>(task);
+            task.Name=dto.Name;
+            task.Description = dto.Description;
+            task.IsDone = dto.IsDone;
 
-            return taskDto;
+            _dbContext.SaveChanges();
         }
 
         public IEnumerable<TaskDto> GetAll()
@@ -44,8 +57,7 @@ namespace ToDoAPI.Services
             var tasks = _dbContext
                 .Tasks.Where(c=>c.UserId==_userContextService.GetUserId)
                 .ToList();
-
-
+            
             var tasksDto = _mapper.Map<List<TaskDto>>(tasks);
             return tasksDto;
         }
@@ -72,12 +84,13 @@ namespace ToDoAPI.Services
 
         private Task getTaskById(int id)
         {
-            var task = _dbContext.Tasks.FirstOrDefault(t => t.Id == id&& t.UserId==_userContextService.GetUserId);
+            var task = _dbContext.Tasks.FirstOrDefault(t => t.Id == id && t.UserId == _userContextService.GetUserId);
 
             if (task is null)
                 throw new NotFoundException("Task not found");
 
             return task;
         }
+
     }
 }
