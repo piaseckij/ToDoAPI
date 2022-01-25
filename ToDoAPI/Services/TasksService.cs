@@ -42,10 +42,9 @@ namespace ToDoAPI.Services
         public IEnumerable<TaskDto> GetAll()
         {
             var tasks = _dbContext
-                .Tasks
+                .Tasks.Where(c=>c.UserId==_userContextService.GetUserId)
                 .ToList();
 
-            Console.WriteLine(_userContextService.GetUserId);
 
             var tasksDto = _mapper.Map<List<TaskDto>>(tasks);
             return tasksDto;
@@ -53,7 +52,9 @@ namespace ToDoAPI.Services
 
         public int CreateTask(CreateTaskDto dto)
         {
-            var task = _mapper.Map<Task>(dto);
+            var task = _mapper.Map<Task>(dto); 
+
+            task.UserId = _userContextService.GetUserId;
 
             _dbContext.Add((object) task);
             _dbContext.SaveChanges();
@@ -71,7 +72,7 @@ namespace ToDoAPI.Services
 
         private Task getTaskById(int id)
         {
-            var task = _dbContext.Tasks.FirstOrDefault(t => t.Id == id);
+            var task = _dbContext.Tasks.FirstOrDefault(t => t.Id == id&& t.UserId==_userContextService.GetUserId);
 
             if (task is null)
                 throw new NotFoundException("Task not found");
