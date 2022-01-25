@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Microsoft.AspNetCore.Components;
 using ToDoAPI.Entites;
 using ToDoAPI.Exceptions;
 using ToDoAPI.Models;
@@ -32,20 +30,12 @@ namespace ToDoAPI.Services
             _userContextService = userContextService;
         }
 
-        //public TaskDto GetById(int id)
-        //{
-        //    var task = getTaskById(id);
-
-        //    var taskDto = _mapper.Map<TaskDto>(task);
-
-        //    return taskDto;
-        //}
 
         public void EditTask(TaskDto dto)
         {
             var task = getTaskById(dto.Id);
 
-            task.Name=dto.Name;
+            task.Name = dto.Name;
             task.Description = dto.Description;
             task.IsDone = dto.IsDone;
 
@@ -55,16 +45,16 @@ namespace ToDoAPI.Services
         public IEnumerable<TaskDto> GetAll()
         {
             var tasks = _dbContext
-                .Tasks.Where(c=>c.UserId==_userContextService.GetUserId)
+                .Tasks.Where(c => c.UserId == _userContextService.GetUserId)
                 .ToList();
-            
+
             var tasksDto = _mapper.Map<List<TaskDto>>(tasks);
             return tasksDto;
         }
 
         public int CreateTask(CreateTaskDto dto)
         {
-            var task = _mapper.Map<Task>(dto); 
+            var task = _mapper.Map<Task>(dto);
 
             task.UserId = _userContextService.GetUserId;
 
@@ -91,6 +81,5 @@ namespace ToDoAPI.Services
 
             return task;
         }
-
     }
 }

@@ -19,20 +19,13 @@ namespace ToDoAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TaskDto>> Get([FromRoute] int id)
+        public ActionResult<IEnumerable<TaskDto>> Get()
         {
             var tasks = _tasksService.GetAll();
 
             return Ok(tasks);
         }
 
-        //[HttpGet("{id}")]
-        //public ActionResult<TaskDto> GetById([FromRoute] int id)
-        //{
-        //    var task = _tasksService.GetById(id);
-
-        //    return Ok(task);
-        //}
 
         [HttpPost]
         public ActionResult Post([FromBody] CreateTaskDto dto)
@@ -56,7 +49,6 @@ namespace ToDoAPI.Controllers
             _tasksService.EditTask(dto);
 
             return Ok();
-
         }
     }
 }

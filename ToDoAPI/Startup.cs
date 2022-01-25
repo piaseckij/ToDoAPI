@@ -67,7 +67,8 @@ namespace ToDoAPI
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddScoped<IUserContextService, UserContextService>();
-            services.AddHttpContextAccessor(); 
+            services.AddHttpContextAccessor();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +84,12 @@ namespace ToDoAPI
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseAuthentication();
             app.UseHttpsRedirection();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ToDoAPI");
+            });
 
             app.UseRouting();
 
