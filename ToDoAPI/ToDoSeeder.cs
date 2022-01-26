@@ -20,10 +20,7 @@ namespace ToDoAPI
             {
                 var pendingMigrations = _context.Database.GetPendingMigrations();
 
-                if (pendingMigrations != null && pendingMigrations.Any())
-                {
-                    _context.Database.Migrate();
-                }
+                if (pendingMigrations != null && pendingMigrations.Any()) _context.Database.Migrate();
 
                 if (!_context.Users.Any())
                 {
@@ -61,7 +58,7 @@ namespace ToDoAPI
                 {
                     Name = "Meet friends",
                     Description = "Meet Friends at 19:00",
-                    UserId=1
+                    UserId = 1
                 }
             };
 
