@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace ToDoAPI.Entites
+namespace ToDoAPI.Entities
 {
-    public class ToDoDbContext:DbContext
+    public class ToDoDbContext : DbContext
     {
-        public ToDoDbContext(DbContextOptions<ToDoDbContext> options):base(options)
+        public ToDoDbContext(DbContextOptions<ToDoDbContext> options) : base(options)
         {
-            
         }
 
         public DbSet<User> Users { get; set; }
@@ -40,8 +33,6 @@ namespace ToDoAPI.Entites
                 .Property(t => t.IsDone)
                 .IsRequired()
                 .HasDefaultValue(false);
-
         }
-
     }
 }

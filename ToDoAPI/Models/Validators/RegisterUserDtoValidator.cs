@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using FluentValidation;
-using ToDoAPI.Entites;
+using ToDoAPI.Entities;
 
 namespace ToDoAPI.Models.Validators
 {
-    public class RegisterUserDtoValidator:AbstractValidator<RegisterUserDto>
+    public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
     {
         public RegisterUserDtoValidator(ToDoDbContext dbContext)
         {
@@ -24,20 +20,14 @@ namespace ToDoAPI.Models.Validators
                 .Custom((value, context) =>
                 {
                     var EmailInUse = dbContext.Users.Any(u => u.Email == value);
-                    if (EmailInUse)
-                    {
-                        context.AddFailure("Email", "That email is taken");
-                    }
+                    if (EmailInUse) context.AddFailure("Email", "That email is taken");
                 });
 
             RuleFor(x => x.Username)
                 .Custom((value, context) =>
                 {
                     var UsernameInUse = dbContext.Users.Any(u => u.Username == value);
-                    if (UsernameInUse)
-                    {
-                        context.AddFailure("Username", "That username is taken");
-                    }
+                    if (UsernameInUse) context.AddFailure("Username", "That username is taken");
                 });
         }
     }

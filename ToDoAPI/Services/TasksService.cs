@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using ToDoAPI.Entites;
+using ToDoAPI.Entities;
 using ToDoAPI.Exceptions;
 using ToDoAPI.Models;
 

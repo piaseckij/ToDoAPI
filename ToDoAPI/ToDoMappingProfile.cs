@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
+using ToDoAPI.Entities;
 using ToDoAPI.Models;
-using ToDoAPI.Entites;
 
 namespace ToDoAPI
 {
-    public class ToDoMappingProfile:Profile
+    public class ToDoMappingProfile : Profile
     {
         public ToDoMappingProfile()
         {
@@ -16,7 +12,6 @@ namespace ToDoAPI
             CreateMap<TaskDto, Task>();
 
             CreateMap<CreateTaskDto, Task>();
-
         }
     }
 }
